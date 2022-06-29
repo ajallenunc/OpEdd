@@ -2,6 +2,7 @@ import numpy as np
 from dipy.reconst.shm import real_sym_sh_basis
 from scipy.special import legendre
 from dipy.segment.mask import applymask
+from sklearn.metrics.pairwise import euclidean_distances
 
 class EigenBasis(object):
 	def __init__(self, mu, V, rho, sh_order, num_eigen=None, sigma2=0):
