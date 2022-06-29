@@ -15,7 +15,7 @@ def MAP(X, S, EB):
 	for kk in range(EB.num_eigen):
 		Gamma_12[kk, :] = EB.rho[kk]*EB.compute_eigenfunction(X, kk)
 	Gamma_22 = EB.K(X)
-	return np.dot(np.dot(Gamma_12, np.linalg.inv(Gamma_22)), S_samples - EB.mean(X))
+	return np.dot(np.dot(Gamma_12, np.linalg.inv(Gamma_22)), S - EB.mean(X))
 
 def roughness_penalized_ridge_estimator(X, S, sh_order, gamma):
 	"""
