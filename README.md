@@ -31,11 +31,15 @@ Building a new template space prior requires a training set of diffusion weighte
 
 1. "${DaTaFolder}/DWI_unregistered" contains a subfolder for each training subject. The name of the subfolders 'subject_id' is linked to the training_ids.txt file. Each training_id folder should house the following files:
 
-	bvals: space separated text file of the b-values 
-	bvecs: space separated text file of b-vector coordinates: 3 lines with each line corresponding to a coordinate, (each 'column' indicates a unique b-vector)
-	dwi.nii.gz: NIfTI file of diffusion weighted images
-	mask.nii.gz: (optional) NIfTI file of binary mask (e.g., white matter mask)
-	geom_field.nii.gz: NIfTI file of image to estimate the warp, e.g. FA or b0.  
+	a. bvals: space separated text file of the b-values 
+
+	b. bvecs: space separated text file of b-vector coordinates: 3 lines with each line corresponding to a coordinate, (each 'column' indicates a unique b-vector)
+
+	c. dwi.nii.gz: NIfTI file of diffusion weighted images
+	
+	d. mask.nii.gz: (optional) NIfTI file of binary mask (e.g., white matter mask)
+	
+	e. geom_field.nii.gz: NIfTI file of image to estimate the warp, e.g. FA or b0.  
 
 2. "${OpEddFolder}/training_ids.txt" is a text file with one 'training_id' per row
 
