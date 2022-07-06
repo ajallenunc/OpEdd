@@ -1,7 +1,7 @@
 # OpEdd
 Optimal experimental design and sparse estimation for diffusion MRI.
 
-Code for implementing optimal design and sparse diffusion signal estimation from "Optimized Diffusion Imaging for Brain Structural Connectome Analysis", arXiv:2102.12526 (to appear in IEEE TMI).
+Code for implementing optimal design and sparse diffusion signal estimation from "Optimized Diffusion Imaging for Brain Structural Connectome Analysis", (DOI 10.1109/TMI.2022.3156868, arXiv:2102.12526).
 
 ## Installing Prerequisites
 
