@@ -44,9 +44,11 @@ Building a new template space prior requires a training set of diffusion weighte
 2. "${OpEddFolder}/training_ids.txt" is a text file with one 'training_id' per row
 
 3. 
-	i) Under "${DaTaFolder}/priors", create a subfolder to house the prior objects.
-	ii) Under this subfolder, create two directories: 'training' and 'template'. 
-	iii) Finally, under the 'template' subfolder, put the 'template.nii.gz' NIfTI file defining the template space in which to build the prior, e.g. FA or b0 template image. 
+	a. Under "${DaTaFolder}/priors", create a subfolder to house the prior objects.
+
+	b. Under this subfolder, create two directories: 'training' and 'template'.
+
+	c. Finally, under the 'template' subfolder, put the 'template.nii.gz' NIfTI file defining the template space in which to build the prior, e.g. FA or b0 template image. 
 
 ### Running Code
 
@@ -58,7 +60,7 @@ Building a new template space prior requires a training set of diffusion weighte
 bash construct_prior.sh
 ```
 
-This command will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the ${DaTaFolder}/priors/${PRIOR_NAME}/template/ folder. 
+This command will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the "${DaTaFolder}/priors/${PRIOR_NAME}/template/" folder. 
 
 2. To map the prior from the template space onto the geometry of an individual subjects brain, run: 
 
