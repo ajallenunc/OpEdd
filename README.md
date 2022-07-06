@@ -41,7 +41,7 @@ Building a new template space prior requires a training set of diffusion weighte
 	
 	e. geom_field.nii.gz: NIfTI file of image to estimate the warp, e.g. FA or b0.  
 
-2. "${OpEddFolder}/training_ids.txt" is a text file with one 'training_id' per row
+2. "${OpEddFolder}/training_ids.txt" is a text file with one 'training_id' per row, where OpEddFolder=path/2/OpEdd/
 
 3. 
 	a. Under "${DaTaFolder}/priors", create a subfolder to house the prior objects.
