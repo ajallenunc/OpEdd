@@ -54,15 +54,13 @@ Building a new template space prior requires a training set of diffusion weighte
 
 0. Configure global paths in config.txt
 
-1. To build the template space prior from the training data, run:
+1. To build the template space prior from the training data, run the command below. This will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the "${DaTaFolder}/priors/${PRIOR_NAME}/template/" folder.
 
 ```
 bash construct_prior.sh
 ```
 
-	This command will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the "${DaTaFolder}/priors/${PRIOR_NAME}/template/" folder. 
-
-2. To map the prior from the template space onto the geometry of an individual subjects brain, run: 
+2. To map the prior from the template space onto the geometry of an individual subjects brain, run the command below. This will writes "EB_object.pkl" to ${SUBJECT_DIR}$, which can then be loaded and used for design selection and estimation using the methods in opedd. See example.py for how to use this object.
 
 ```
 bash map_prior.sh
@@ -75,4 +73,3 @@ Note: Must configure SUBJECT_DIR (in config.txt) to point to a folder with:
 	mask.nii.gz: NIfTI file of binary mask (e.g., white matter mask)
 	geom_field.nii.gz: NIfTI file of FA image (to provide coordinate system for prior injection)
 
-Writes "EB_object.pkl" to ${SUBJECT_DIR}$, which can then be loaded and used for design selection and estimation using the methods in opedd. See example.py for a sample usage.
