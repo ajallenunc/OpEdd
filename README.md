@@ -60,7 +60,7 @@ Building a new template space prior requires a training set of diffusion weighte
 bash construct_prior.sh
 ```
 
-This command will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the "${DaTaFolder}/priors/${PRIOR_NAME}/template/" folder. 
+	This command will create "mean_signal.nii.gz" and "log_cov_signal.nii.gz" NIfTI file tensors in the "${DaTaFolder}/priors/${PRIOR_NAME}/template/" folder. 
 
 2. To map the prior from the template space onto the geometry of an individual subjects brain, run: 
 
