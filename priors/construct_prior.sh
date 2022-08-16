@@ -33,6 +33,7 @@ mapfile -t subjects < $TRAIN_IDS
 for i in $(seq 1 ${#subjects[@]}); do
         idx=$((i - 1))
         sbatch fit_historical_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]}
+        cp $DATA_DIR/${subjects[$idx]}/geom_field.nii.gz $PRIOR_DIR/training/${subjects[$idx]}
 done
 wait 
 # Step 2: Register diffusion signal to template 
