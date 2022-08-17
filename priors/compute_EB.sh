@@ -6,5 +6,5 @@
 
 SUBJECT_DIR=${1}
 
-python create_eigenbasis.py --subject_dir $SUBJECT_ID --sh_order 8
+python create_eigenbasis.py --subject_dir $SUBJECT_DIR --sh_order 8
 
