@@ -72,7 +72,7 @@ def main():
 			logrho = logrho[idx]
 			V = V[:, idx]
 			rho = np.exp(logrho)
-			EB = EigenBasis(mu_ixiyiz, V, rho, sh_order, num_eigen=K-1, sigma=sigma2_hat)
+			EB = EigenBasis(mu_ixiyiz, V, rho, sh_order, num_eigen=K-1, sigma2=sigma2_hat)
 			EBdata[(ix, iy, iz)] = EB
 
 	with open(os.path.join(SUBJECT_DIR, "EB_object.pkl"), "wb") as pklfile:
