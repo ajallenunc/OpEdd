@@ -26,6 +26,9 @@ JID=$(uuidgen | tr '-' ' ' | awk {'print $1}')
 # get all training subject names
 mapfile -t subjects < $TRAIN_IDS
 
+# Directory to hold slurm outputs 
+mkdir -p out_slurm 
+
 ## Build Prior 
 declare -a job_ids_step2
 for i in $(seq 1 ${#subjects[@]}); do
@@ -36,10 +39,10 @@ for i in $(seq 1 ${#subjects[@]}); do
         cp $DATA_DIR/${subjects[$idx]}/geom_field.nii.gz $PRIOR_DIR/training/${subjects[$idx]}
 
         # Step 1: Fit diffusion signal
-        job_id_step1=$(sbatch fit_historical_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]} | awk '{print $NF}')
+        job_id_step1=$(sbatch -o out_slurm/fit_historical_signal_${subjects[$idx]}_%j.out fit_historical_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]} | awk '{print $NF}')
 
         # Step 2: Register diffusion signal to template
-        job_id_step2=$(sbatch --dependency=afterok:$job_id_step1 warp_diffusion_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]} | awk '{print $NF}')
+        job_id_step2=$(sbatch --dependency=afterok:$job_id_step1 -o out_slurm/warp_diffusion_signal_${subjects[$idx]}_%j.out warp_diffusion_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]} | awk '{print $NF}')
 
 done
 
@@ -47,4 +50,5 @@ done
 job_dependency_step2=$(IFS=, ; echo "${job_ids_step2[*]}")
 
 # Step 3: Estimate mean and covariance functions on the template space
-sbatch --dependency=afterok:$job_dependency_step2 estimate_mean_cov_2.sh $PRIOR_DIR
+sbatch --dependency=afterok:$job_dependency_step2 -o out_slurm/estimate_mean_cov_2_%j.out estimate_mean_cov_2.sh $PRIOR_DIR
+
