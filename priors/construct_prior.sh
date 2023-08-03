@@ -50,5 +50,5 @@ done
 job_dependency_step2=$(IFS=, ; echo "${job_ids_step2[*]}")
 
 # Step 3: Estimate mean and covariance functions on the template space
-sbatch --dependency=afterok:$job_dependency_step2 -o out_slurm/estimate_mean_cov_2_%j.out estimate_mean_cov_2.sh $PRIOR_DIR
+sbatch --dependency=afterok:$job_dependency_step2 -o out_slurm/estimate_mean_cov_%j.out estimate_mean_cov.sh $PRIOR_DIR
 
