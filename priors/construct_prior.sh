@@ -15,6 +15,7 @@ trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 # get global config 
 source config.txt
 
+PRIOR_NAME=${1}
 TRAIN_IDS=${OpEddFolder}/training_ids.txt
 PRIOR_DIR=${DaTaFolder}/priors/${PRIOR_NAME}
 DATA_DIR=${DaTaFolder}/priors/${PRIOR_NAME}/DWI_unregistered
