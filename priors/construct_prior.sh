@@ -43,6 +43,7 @@ for i in $(seq 1 ${#subjects[@]}); do
 
         # Step 2: Register diffusion signal to template
         job_id_step2=$(sbatch --dependency=afterok:$job_id_step1 -o out_slurm/warp_diffusion_signal_${subjects[$idx]}_%j.out warp_diffusion_signal.sh $DATA_DIR $PRIOR_DIR ${subjects[$idx]} | awk '{print $NF}')
+        job_ids_step2+=($job_id_step2)
 
 done
 
