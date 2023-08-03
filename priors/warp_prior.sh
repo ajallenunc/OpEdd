@@ -7,13 +7,16 @@
 PRIOR_DIR=${1}
 SUBJECT_DIR=${2}
 
-antsRegistrationSyN.sh -d 3 -f ${PRIOR_DIR}/template/template.nii.gz -m ${SUBJECT_DIR}/geom_field.nii.gz \
-										-o ${SUBJECT_DIR}/geom_field_warped
+# Move Template Image (template.nii.gz) to Subject Space (geom_field.nii.gz)
+antsRegistrationSyN.sh -d 3 -m ${PRIOR_DIR}/template/template.nii.gz -f ${SUBJECT_DIR}/geom_field.nii.gz \
+                                        -o ${SUBJECT_DIR}/geom_field_warped
 
+# Apply Transformations to Mean and Cov Signals 
 antsApplyTransforms -d 3 -e 3 -i ${PRIOR_DIR}/template/mean_signal.nii.gz \
--r ${SUBJECT_DIR}/geom_field.nii.gz -t [ ${SUBJECT_DIR}/geom_field_warped0GenericAffine.mat , 1 ] \
--t ${SUBJECT_DIR}/geom_field_warped1InverseWarp.nii.gz -o ${SUBJECT_DIR}/mean_func_warped.nii.gz
+-r ${SUBJECT_DIR}/geom_field.nii.gz -o ${SUBJECT_DIR}/mean_func_warped.nii.gz \
+-t ${SUBJECT_DIR}/geom_field_warped1Warp.nii.gz ${SUBJECT_DIR}/geom_field_warped0GenericAffine.mat
 
 antsApplyTransforms -d 3 -e 3 -i ${PRIOR_DIR}/template/log_cov_signal.nii.gz \
--r ${SUBJECT_DIR}/geom_field.nii.gz -t [ ${SUBJECT_DIR}/geom_field_warped0GenericAffine.mat , 1 ] \
--t ${SUBJECT_DIR}/geom_field_warped1InverseWarp.nii.gz -o ${SUBJECT_DIR}/log_cov_func_warped.nii.gz
+-r ${SUBJECT_DIR}/geom_field.nii.gz -o ${SUBJECT_DIR}/log_cov_func_warped.nii.gz \
+-t ${SUBJECT_DIR}/geom_field_warped1Warp.nii.gz ${SUBJECT_DIR}/geom_field_warped0GenericAffine.mat
+
