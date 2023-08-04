@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #SBATCH --ntasks=1
-#SBATCH --time=100:00
-#SBATCH --mem-per-cpu=200GB
+#SBATCH --time=6:00:00
+#SBATCH --mem-per-cpu=300GB
 
 PRIOR_DIR=${1}
 

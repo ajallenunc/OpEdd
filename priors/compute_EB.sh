@@ -2,7 +2,7 @@
 #SBATCH -t 02:00:00 
 #SBATCH -c 2 
 #SBATCH -n 1 
-#SBATCH --mem-per-cpu=20GB
+#SBATCH --mem-per-cpu=50GB
 
 SUBJECT_DIR=${1}
 
