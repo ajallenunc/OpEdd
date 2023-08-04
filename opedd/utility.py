@@ -176,3 +176,36 @@ def get_signal_transformation(n):
 		P_n = legendre(n[i])
 		Tinv[i, i] = 1./P_n(0)
 	return Tinv
+
+def _get_forces(charges):
+    r"""Given a set of charges on the surface of the sphere gets total force
+    those charges exert on each other.
+
+    The force exerted by one charge on another is given by Coulomb's law. For
+    this simulation we use charges of equal magnitude so this force can be
+    written as $\vec{r}/r^3$, up to a constant factor, where $\vec{r}$ is the
+    separation of the two charges and $r$ is the magnitude of $\vec{r}$. Forces
+    are additive so the total force on each of the charges is the sum of the
+    force exerted by each other charge in the system. Charges do not exert a
+    force on themselves. The electric potential can similarly be written as
+    $1/r$ and is also additive.
+    """
+
+    all_charges = np.concatenate((charges, -charges))
+    all_charges = all_charges[:, None]
+    r = charges - all_charges
+    r_mag = np.sqrt((r*r).sum(-1))[:, :, None]
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        force = r / r_mag**3
+        potential = 1. / r_mag
+
+    d = np.arange(len(charges))
+    force[d, d] = 0
+    force = force.sum(0)
+    force_r_comp = (charges*force).sum(-1)[:, None]
+    f_theta = force - force_r_comp*charges
+    potential[d, d] = 0
+    potential = 2*potential.sum()
+    return f_theta, potential
+
