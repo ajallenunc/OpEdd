@@ -16,8 +16,8 @@ trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 source config.txt
 
 PRIOR_NAME=${1}
-TRAIN_IDS=${OpEddFolder}/training_ids.txt
 PRIOR_DIR=${DaTaFolder}/priors/${PRIOR_NAME}
+TRAIN_IDS=${PRIOR_DIR}/training_ids.txt
 DATA_DIR=${DaTaFolder}/priors/${PRIOR_NAME}/DWI_unregistered
 
 # create a unique job name prefix
