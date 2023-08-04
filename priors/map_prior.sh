@@ -24,10 +24,10 @@ while IFS= read -r sub
 do
     echo $sub
     # Step 1: Map Prior to Subject Space
-    job1=$(sbatch warp_prior.sh $PRIOR_DIR "$PRIOR_DIR"/testing/$sub | cut -f 4 -d' ')
+    job1=$(sbatch --output=out_slurm/warp_prior_${sub}.out --error=out_slurm/warp_prior_${sub}.err warp_prior.sh $PRIOR_DIR "$PRIOR_DIR"/testing/$sub | cut -f 4 -d' ')
 
     # Step 2: Create EB object for each test subject
-    job2=$(sbatch --dependency=afterok:$job1 compute_EB.sh "$PRIOR_DIR"/testing/$sub | cut -f 4 -d' ')
+    job2=$(sbatch --output=out_slurm/compute_EB_${sub}.out --error=out_slurm/compute_EB_${sub}.err --dependency=afterok:$job1 compute_EB.sh "$PRIOR_DIR"/testing/$sub | cut -f 4 -d' ')
 
     # Step 3: Estimate fODF
     for b in $budget_list
