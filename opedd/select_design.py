@@ -117,3 +117,25 @@ def GDS_region(X, EBlst, M):
 		Xix[r] = max_ix
 	return Xix
 
+def generate_ESR_design(bvecs, M, nsamples, seed):
+
+    rng = np.random.default_rng(seed)
+    n_bvecs = np.shape(bvecs)[0]
+    weights = np.ones((M, M))
+
+    best_energy = np.inf
+    best_config = None
+
+    for i in range(nsamples):
+        indices = rng.choice(n_bvecs, size=M, replace=False)
+        try_config = bvecs[indices]
+        #energy = electrostatic_repulsion(try_config.flatten(), weights)
+        f_theta, energy = _get_forces(try_config)
+        if energy < best_energy:
+            best_energy = energy
+            best_config = try_config
+            best_indices = indices
+
+    return best_config, best_indices, best_energy
+
+
