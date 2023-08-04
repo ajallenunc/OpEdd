@@ -2,7 +2,7 @@
 #
 #SBATCH --ntasks=1
 #SBATCH --time=5:00:00
-#SBATCH --mem-per-cpu=24GB
+#SBATCH --mem-per-cpu=8GB
 
 DATA_DIR=${1}
 PRIOR_DIR=${2}
