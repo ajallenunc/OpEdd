@@ -15,42 +15,14 @@ from dipy.core.sphere import disperse_charges, HemiSphere
 
 import sys 
 sys.path.append("/work/users/a/a/aallen1/OptSCAcq/OpEdd/opedd")
-from utility import EigenBasis, cart2sphere, GCV, get_odf_transformation
+from utility import EigenBasis, cart2sphere, GCV, get_odf_transformation, generate_ESR_design, roughness_penalized_ridge_estimator, get_odf_transformation
 from select_design import GDS, GDS_region
-from estimation import MAP, roughness_penalized_ridge_estimator
-from compare_util import generate_ESR_design, roughness_penalized_ridge_estimator, get_odf_transformation
-
-# Initialize vars
-SUBJECT_DIR = "/work/users/a/a/aallen1/OptSCAcq/test_subs/3150431"
-Bval = 2000
-M = 20
-nv_samps = 100
-sh_order = 8
-K = int((sh_order+1)*(sh_order+2)/2)
-m, n = sph_harm_ind_list(sh_order)
-T_n = get_odf_transformation(n)
-sphere = get_sphere("repulsion724")
-
-
-# Load data 
-bvals, bvecs = read_bvals_bvecs(os.path.join(SUBJECT_DIR, "bvals"), 
-                                os.path.join(SUBJECT_DIR, "bvecs"))
-ix0 = np.argwhere((bvals < 10.)).ravel()
-ixb = np.argwhere((bvals > Bval - 20) & (bvals < Bval + 20)).ravel()
-X = bvecs[ixb] # Bvecs at correct Bval
-
-
 
 def main():
     
-    """
-    Example usage of optimal design code and estimator. 
-    Requires 
-    1) Prior to be constructed and warped, e.g., using the pipeline outlined in the priors folder.
-    2) dwi.nii.gz needs some number >= 1 of diffusion weighted images at `Bval' + >= 2 b0 images
-    """
+    
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-                                                            description="Example usage of OpEdd")
+                                                            description="Compute SHLS-ESR Design fODFs")
     parser.add_argument('--subject_dir', action='store', required=True,
                                     type=str, help='Path to subject directory.')
     parser.add_argument('--sh_order', action='store', default=8,
@@ -71,6 +43,7 @@ def main():
     sh_order = args.sh_order
     rand_seed = args.rand_seed
     K = int((sh_order+1)*(sh_order+2)/2)
+    m, n = sph_harm_ind_list(sh_order)
     T_n = get_odf_transformation(n)
     gamma = 1e-3
     sphere = get_sphere("repulsion724")
@@ -99,7 +72,9 @@ def main():
     X_M = best_config
     
     ### Compute ODF & fODF ###
+
     os.makedirs(os.path.join(SUBJECT_DIR,"SHLS"),exist_ok=True)
+
     # Initialize Vars 
     SignalTensor = np.zeros((data.shape[0], data.shape[1], data.shape[2], K))
     ODFTensor = np.zeros((data.shape[0], data.shape[1], data.shape[2], K))
