@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 
 #### replace 'myCondEnv3' with your anaconda3 created python environment
 conda activate OptTryEnv
@@ -15,7 +14,6 @@ trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 # get global config 
 source config.txt
 
-PRIOR_NAME=${1}
 PRIOR_DIR=${DaTaFolder}/priors/${PRIOR_NAME}
 test_ids=${PRIOR_DIR}/testing_ids.txt
 budget_list="5 10 20 30 40 50"
@@ -32,7 +30,7 @@ do
     # Step 3: Estimate fODF
     for b in $budget_list
     do
-        sbatch --mem=200G --time=2- --job-name=sub_${sub}_${b}_opedd_fodf_job --output=out_slurm/opedd_signal_to_fodf_${sub}_${b}.out --error=out_slurm/opedd_signal_to_fodf_${sub}_${b}.err --dependency=afterok:$job2 --wrap="python -u opedd_signal_to_fodf.py --subject_dir=\"$PRIOR_NAME\"/testing/$sub --Bval=2000 --M=$b --sh_order=8"
+        sbatch --mem=200G --time=2- --job-name=sub_${sub}_${b}_opedd_fodf_job --output=out_slurm/opedd_signal_to_fodf_%J_${sub}_${b}.out --error=out_slurm/opedd_signal_to_fodf_%J_${sub}_${b}.err --dependency=afterok:$job2 --wrap="python -u opedd_signal_to_fodf.py --subject_dir=\"$PRIOR_DIR\"/testing/$sub --Bval=2000 --M=$b --sh_order=8"
 
     done
 done < "$test_ids"

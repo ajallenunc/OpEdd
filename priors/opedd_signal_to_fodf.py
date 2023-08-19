@@ -83,6 +83,9 @@ def main():
     
     ## Select a voxel specific design and then estimate signal via MAP under historical prior 
     ## Compute ODF via FRT and fODF via deconvolution 
+
+    os.makedirs(os.path.join(SUBJECT_DIR,"OpEdd"),exist_ok=True)
+
     print("Entering ODF Tensor Loop")
     SignalTensor = np.zeros((data.shape[0], data.shape[1], data.shape[2], K))
     ODFTensor = np.zeros((data.shape[0], data.shape[1], data.shape[2], K))
@@ -102,7 +105,7 @@ def main():
             SignalTensor[ix, iy, iz, :] = c_hat_sh.ravel()
             ODFTensor[ix, iy, iz, :] = T_n @ SignalTensor[ix, iy, iz, :]
 
-    nib.save(nib.Nifti1Image(ODFTensor,img.affine),os.path.join(SUBJECT_DIR,f"{Bval}_{M}_odf_est.nii.gz"))
+    nib.save(nib.Nifti1Image(ODFTensor,img.affine),os.path.join(SUBJECT_DIR,"OpEdd",f"{Bval}_{M}_odf_est.nii.gz"))
 
     print("Finished ODF Tensor Loop. Startin FODF Calculation")
 
@@ -110,7 +113,7 @@ def main():
 
     print("Finished FODF Tensor Calculation")
     
-    nib.save(nib.Nifti1Image(FODFTensor,img.affine),os.path.join(SUBJECT_DIR,f"{Bval}_{M}_fodf_est.nii.gz"))
+    nib.save(nib.Nifti1Image(FODFTensor,img.affine),os.path.join(SUBJECT_DIR,"OpEdd",f"{Bval}_{M}_fodf_est.nii.gz"))
 
 if __name__=="__main__":
     main()
